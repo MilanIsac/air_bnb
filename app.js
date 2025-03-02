@@ -8,8 +8,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require('./utils/wrapAsync.js');
 const Express_Error = require('./utils/express_error.js');
-const {listingSchema} = require("./schema.js");
-const review = require("./models/review.js");
+const {listingSchema, reviewSchema} = require("./schema.js");
+const Review = require("./models/review.js");
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -39,6 +39,16 @@ app.get("/", (req, res) => {
 
 const validateListing = (req, res, next) => {
     let {error} = listingSchema.validate(req.body);
+    if(error){
+        let error_msg = error.details.map((el) => el.message).join(",");
+        throw new Express_Error(400, error_msg);
+    }
+    else{
+        next();
+    }
+}
+const validateReview = (req, res, next) => {
+    let {error} = reviewSchema.validate(req.body);
     if(error){
         let error_msg = error.details.map((el) => el.message).join(",");
         throw new Express_Error(400, error_msg);
@@ -84,7 +94,24 @@ app.delete("/listings/:id",
 }))
 
 // review
-app.post("/listings/:id/reviews", async(req, res, ))
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async(req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    if(!listing){
+        res.status(400).send("Review Not Found");
+    }
+    let newReview = new Review(req.body.review);
+    await newReview.save();
+    listing.reviews.push(newReview);
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
+}))
+
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async(req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete();
+    res.redirect(`/listings/${id}`);
+}))
 
 app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
@@ -93,7 +120,7 @@ app.get("/listings/new", (req, res) => {
 app.get("/listings/:id", 
     wrapAsync (async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
 }))
 
