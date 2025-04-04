@@ -1,13 +1,12 @@
 <% layout("/layouts/boilerplate") %>
     <div class="row">
         <div class="col-8 offset-2">
-            <!-- <br><br> -->
             <h3>Create New Listing</h3>
             <form action="/listings" method="POST" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" name="listing[title]" placeholder="Title" class="form-control" required>
-                    <div class="valid-feedback">Title looks Good!!!</div>
+                    <!-- <div class="valid-feedback">Title looks Good!!!</div> -->
                     <div class="invalid-feedback">Please enter a valid Title</div>
                 </div>
 
@@ -39,7 +38,7 @@
 
                 <div class="mb-3">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" name="lisitng[location]" placeholder="Enter location" class="form-control" required>
+                    <input type="text" name="listing[location]" placeholder="Enter location" class="form-control" required>
                     <div class="invalid-feedback">Please enter a valid Location</div>
                 </div>
 

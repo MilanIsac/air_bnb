@@ -36,16 +36,22 @@ body{
 
 .card-body{
     padding: 0 !important;
+    /* margin-bottom: 10px; */
 }
 
-.card-text p{
-    font-weight: 900 !important;
+.card-text {
+    font-weight: 300 !important;
 }
 
 .listing-link{
     text-decoration: none;
 }
 
+.delete-btn{
+    margin-top: 10px;
+    border: none !important;
+    font-size: 11px !important;
+}
 .card-img-overlay{
     opacity: 0;
     transition: 0.2s;

@@ -19,13 +19,13 @@
                         <%= listing.title %>
                     </b>
                     <br>
-                    <%= listing.description %>
+                    Description: <%= listing.description %>
                         <br>
                         &#8377 <%= listing.price.toLocaleString("en-IN") %>/night
                             <br>
-                            <%= listing.location %>
+                            Location: <%= listing.location %>
                                 <br>
-                                <%= listing.country %>
+                                Country: <%= listing.country %>
                                     <br>
                 </p>
             </div>
@@ -73,7 +73,7 @@
                         </p>
                     </div>
                     <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                        <button class="btn btn-sm btn-dark">Delete</button>
+                        <button class="btn btn-sm btn-dark delete-btn">Delete</button>
                     </form>
                 </div>
                 <% } %>
