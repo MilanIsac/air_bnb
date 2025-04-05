@@ -33,9 +33,9 @@
     </div>
     <div class="btns">
         <a href="/listings/<%= listing._id %>/edit?nocache=<%= Date.now() %>"
-            class="btn btn-dark col-1 offset-3">Edit</a>
+            class="btn btn-success col-1 offset-3">Edit</a>
         <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-dark  offset-5">Delete</button>
+            <button class="btn btn-danger  offset-5">Delete</button>
         </form>
     </div>
     <br>
@@ -54,7 +54,7 @@
                 <div class="invalid-feedback">Please provide some feedback!</div>
             </div>
             <br>
-            <button class="btn btn-outline-dark">Submit</button>
+            <button class="btn btn-outline-success">Submit</button>
         </form>
 
         <hr>
@@ -73,7 +73,7 @@
                         </p>
                     </div>
                     <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                        <button class="btn btn-sm btn-dark delete-btn">Delete</button>
+                        <button class="btn btn-sm btn-danger delete-btn">Delete</button>
                     </form>
                 </div>
                 <% } %>
