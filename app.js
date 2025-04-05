@@ -41,6 +41,12 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -50,23 +56,18 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/users", userRouter);
+app.use("/", userRouter);
 
-app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    next();
-})
 
-app.get("/demouser", async (req, res) => {
-    let fake_user = new User({
-        email : "stud@gmail.com",
-        username : "stud1"
-    });
+// app.get("/demouser", async (req, res) => {
+//     let fake_user = new User({
+//         email : "stud@gmail.com",
+//         username : "stud1"
+//     });
 
-    let registered_user = await User.register(fake_user, "helloworld");
-    res.send(registered_user);
-})
+//     let registered_user = await User.register(fake_user, "helloworld");
+//     res.send(registered_user);
+// })
 
 main()
     .then(() => {
@@ -84,21 +85,6 @@ async function main() {
 app.get("/", (req, res) => {
     res.send("abc");
 })
-
-// app.get("/test", async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: "my home",
-//         description: "dsvjdjvkdsv",
-//         // image: "",
-//         price: 123,
-//         location: "ahmedabad",
-//         country: "india",
-//     });
-
-//     await sampleListing.save();
-//     console.log("Data saved");
-//     res.send("test was success");
-// });
 
 app.all("*", (req, res, next) => {
     next(new Express_Error(404, "Page Not Found"));
