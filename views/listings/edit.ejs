@@ -36,7 +36,7 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="text" name="listing[image]" value="<%= listing.image %>" class="form-control" required>
+                    <input type="text" name="listing[image]" value="<%= listing.image.url %>" class="form-control" required>
                     <div class="invalid-feedback">Please enter a valid Image URL</div>
                 </div>
 
@@ -50,5 +50,6 @@
                 <button class="btn btn-dark edit-btn mt-3">Submit</button>
 
             </form>
+            <br>
         </div>
     </div>

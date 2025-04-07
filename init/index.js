@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 const MONGO_URI = process.env.MONGO_URI;
+// const MONGO_URI = "mongodb+srv://milanisac7:milan12345@cluster0.cioiv.mongodb.net/"
 console.log(MONGO_URI);
 
 main()
@@ -21,8 +22,12 @@ async function main() {
 
 const initDB = async () => {
     await Listing.deleteMany({});
+    initData.data = initData.data.map((obj) => ({
+        ...obj,
+        owner : "67f20e117f15e11cbee3b486",
+    }));
     await Listing.insertMany(initData.data);
     console.log("data was initialized");
-}
+};
 
 initDB();
