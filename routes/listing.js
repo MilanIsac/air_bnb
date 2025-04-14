@@ -1,21 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Express_Error = require('../utils/express_error.js');
 const wrapAsync = require('../utils/wrapAsync.js');
-const { listingSchema } = require("../schema.js");
 const Listing = require('../models/listing.js');
-const { isLoggedIn, isOwner } = require("../middleware.js");
-
-const validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        let error_msg = error.details.map((el) => el.message).join(",");
-        throw new Express_Error(400, error_msg);
-    }
-    else {
-        next();
-    }
-}
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 
 // index
 router.get("/",
@@ -40,12 +27,15 @@ router.get("/:id",
             res.redirect("/listings");
         }
         // console.log(listing);
+        // console.log("Listing reviews:", listing.reviews);
         res.render("listings/show.ejs", { listing });
     })
 );
 
 // new listing
-router.post("/", isLoggedIn, validateListing,
+router.post("/", 
+    isLoggedIn, 
+    validateListing,
     wrapAsync(async (req, res) => {
         let newListing = new Listing(req.body.listing);
         newListing.owner = req.user._id; 
@@ -65,7 +55,7 @@ router.get("/:id/edit",
         const listing = await Listing.findById(id);
         if(!listing){
             req.flash("error", "Listing does not exist");
-            res.redirect("/listings");
+            return res.redirect("/listings");
         }
         // console.log(listing);
         res.render("listings/edit.ejs", { listing });
@@ -73,7 +63,10 @@ router.get("/:id/edit",
 );
 
 // update listing
-router.put("/:id", isLoggedIn, isOwner, validateListing,
+router.put("/:id",
+    isLoggedIn,
+    isOwner,
+    validateListing,
     wrapAsync(async (req, res) => {
         let { id } = req.params;
         await Listing.findByIdAndUpdate(id, { ...req.body.listing });

@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require("express");
-const app = express({ mergeParams: true});
+const app = express({ mergeParams: true });
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -21,13 +21,13 @@ const MONGO_URI = process.env.MONGO_URI;
 
 
 const sessionOptions = {
-    secret : "secret-code",
-    resave : false,
-    saveUninitialized : true,
-    cookie : {
-        expires : Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge : 7 * 24 * 60 * 60 * 1000,
-        httpOnly : true
+    secret: "secret-code",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
     }
 }
 
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
-    req.session.redirctUrl = req.originalUrl;
+    // req.session.redirctUrl = req.originalUrl;
     next();
 });
 
@@ -60,17 +60,6 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-
-// app.get("/demouser", async (req, res) => {
-//     let fake_user = new User({
-//         email : "stud@gmail.com",
-//         username : "stud1"
-//     });
-
-//     let registered_user = await User.register(fake_user, "helloworld");
-//     res.send(registered_user);
-// })
-
 main()
     .then(() => {
         console.log("Connected to DB");
@@ -83,7 +72,6 @@ async function main() {
     await mongoose.connect(MONGO_URI);
 }
 
-
 app.get("/", (req, res) => {
     res.send("abc");
 })
@@ -93,7 +81,7 @@ app.all("*", (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    let {statusCode = 500, message = "Something went wrong"} = err;
+    let { statusCode = 500, message = "Something went wrong" } = err;
     // res.status(statusCode).send(message);
     res.status(statusCode).render("error.ejs", { message });
 });
