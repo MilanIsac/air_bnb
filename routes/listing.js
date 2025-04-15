@@ -21,8 +21,14 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.get("/:id",
     wrapAsync(async (req, res) => {
         let { id } = req.params;
-        const listing = await Listing.findById(id).populate("reviews").populate("owner");
-        if(!listing){
+        const listing = await Listing.findById(id).populate({
+            path: "reviews",
+            populate: {
+                path: "author",
+            },
+        })
+            .populate("owner");
+        if (!listing) {
             req.flash("error", "Listing does not exist");
             res.redirect("/listings");
         }
@@ -33,13 +39,13 @@ router.get("/:id",
 );
 
 // new listing
-router.post("/", 
-    isLoggedIn, 
+router.post("/",
+    isLoggedIn,
     validateListing,
     wrapAsync(async (req, res) => {
         let newListing = new Listing(req.body.listing);
-        newListing.owner = req.user._id; 
-         await newListing.save();
+        newListing.owner = req.user._id;
+        await newListing.save();
         // console.log("listing : ", newListing);
         req.flash("success", "New Listing Created");
         res.redirect("/listings");
@@ -53,7 +59,7 @@ router.get("/:id/edit",
     wrapAsync(async (req, res) => {
         let { id } = req.params;
         const listing = await Listing.findById(id);
-        if(!listing){
+        if (!listing) {
             req.flash("error", "Listing does not exist");
             return res.redirect("/listings");
         }
