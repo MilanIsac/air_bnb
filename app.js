@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const app = express({ mergeParams: true });
+
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
