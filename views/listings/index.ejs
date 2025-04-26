@@ -1,33 +1,74 @@
-<br>
 <% layout("/layouts/boilerplate") %>
-    <!-- <%= success %> -->
-        <h3>All Listings</h3>
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-            <% for(let listing of listings) { %>
-                <a href="<%= `/listings/${listing._id}` %>" class="listing-link">
-                    <div class="card col listing-card">
-                        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image"
-                            style="height: 20rem" loading="lazy">
-                        <div class="card-img-overlay"></div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                <b>
-                                    <%= listing.title %>
-                                </b>
-                                <br>
-                                &#8377 <%= listing.price.toLocaleString("en-IN") %>/night
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <% } %>
+
+    <div id="filters">
+        <div class="filter">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
         </div>
-        <!-- <ul>
-                    <% for(let listing of listings) { %>
-                        <li>
-                            <a href="/listings/<%= listing._id %>">
+        <div class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic Cities </p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-fort-awesome"></i></div>
+            <p>Castle</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Pools</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camp</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-tractor"></i></div>
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Arctic</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-igloo"></i></div>
+            <p>Domes</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-ship"></i></div>
+            <p>Boats</p>
+        </div>
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+            </div>
+        </div>
+    </div>
+
+    <h3>All Listings</h3>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of listings) { %>
+            <a href="<%= `/listings/${listing._id}` %>" class="listing-link">
+                <div class="card col listing-card">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem"
+                        loading="lazy">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b>
                                 <%= listing.title %>
-                            </a>
-                        </li>
-                        <% } %>
-                </ul> -->
+                            </b>
+                            <br>
+                            &#8377 <%= listing.price.toLocaleString("en-IN") %>/night
+                                <i class="tax-info"> +18% GST</i>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
