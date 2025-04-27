@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Express_Error = require('./utils/express_error.js');
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
@@ -21,9 +22,20 @@ const userRouter = require("./routes/user.js");
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
+const store = MongoStore.create({
+    mongoUrl: MONGO_URI,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 3600
+})
+
+store.on("error", () => {
+    console.log("Error in mongo session store ", err);
+})
 
 const sessionOptions = {
-    secret: "secret-code",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -32,6 +44,7 @@ const sessionOptions = {
         httpOnly: true
     }
 }
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -91,3 +104,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port : ${PORT}`);
 })
+
+// npm i connect-mongo
