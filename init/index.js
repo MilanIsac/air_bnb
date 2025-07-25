@@ -2,8 +2,7 @@ require('dotenv').config();
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
-// const MONGO_URI = process.env.MONGO_URI;
-const MONGO_URI = "mongodb+srv://milanisac7:milan12345@cluster0.cioiv.mongodb.net/"
+const MONGO_URI = process.env.MONGO_URI;
 console.log(MONGO_URI);
 
 main()

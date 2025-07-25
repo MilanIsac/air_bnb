@@ -70,3 +70,21 @@ module.exports.deleteListing = async (req, res) => {
     req.flash("success", "Listing Deleted");
     res.redirect("/listings");
 }
+
+module.exports.index = async (req, res) => {
+    const { q } = req.query;
+    let listings = [];
+
+    if (q) {
+        listings = await Listing.find({
+            $or: [
+                { title: { $regex: q, $options: "i" } },
+                { location: { $regex: q, $options: "i" } }
+            ]
+        });
+    } else {
+        listings = await Listing.find({});
+    }
+
+    res.render("listings/index.ejs", { listings, q });
+};

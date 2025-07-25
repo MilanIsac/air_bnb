@@ -84,7 +84,6 @@ body{
     align-items: space-evenly;
 }
 
-
 .f-links, .f-socials, .company-name{
     width: 100%;
     display: flex;
@@ -126,12 +125,13 @@ body{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-top: 0 !important;
 }
 
 .filter{
     text-align: center;
     margin-right: 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 0 !important;
     opacity: 0.6;
 }
 
@@ -184,4 +184,11 @@ body{
     border-radius: 25px !important;
     padding: 0.5rem 3rem 0.5rem 3rem !important;
     text-align: center !important;
+}
+
+
+.navbar,
+.navbar .container-fluid {
+    margin: 0 !important;
+    padding: 0 !important;
 }
